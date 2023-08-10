@@ -12,8 +12,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
     @GenericGenerator(name = "native",strategy = "native")
     public long id;
-    public long number;
-    public LocalDate creationDate;
+    public String number;
+    public LocalDate date;
     public double balance;
     @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
@@ -25,13 +25,12 @@ public class Account {
     public Account(){
 
     }
-    public Account(long number, double balance){
+    public Account(String number, double balance){
         this.number = number;
-        this.creationDate = LocalDate.now();
+        this.date = LocalDate.now();
         this.balance = balance;
     }
 
-    @JsonIgnore
     public Client getClient() {
         return client;
     }
@@ -52,15 +51,19 @@ public class Account {
         this.balance = balance;
     }
 
-    public long getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
     public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
+        this.date = creationDate;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }
