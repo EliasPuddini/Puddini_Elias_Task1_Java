@@ -42,6 +42,9 @@ public class Client {
     }
 
 
+    public Set<ClientLoan> getClientLoans(){
+        return clientLoans;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -88,4 +91,6 @@ public class Client {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+
 }
