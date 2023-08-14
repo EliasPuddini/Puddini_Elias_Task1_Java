@@ -21,6 +21,8 @@ public class Client {
     private Set<Account> accounts = new HashSet<>();
 
 
+
+
     public Client() { }
 
     public Client(String first, String last, String email) {
@@ -28,6 +30,7 @@ public class Client {
         this.lastName = last;
         this.email = email;
     }
+
 
 
     public String getFirstName() {
