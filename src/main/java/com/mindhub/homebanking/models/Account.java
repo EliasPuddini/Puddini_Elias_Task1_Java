@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,13 +16,14 @@ public class Account {
     @GenericGenerator(name = "native",strategy = "native")
     public long id;
     public String number;
-    public LocalDate date;
+    public LocalDate creationDate;
+    private LocalDateTime localDateTime;
     public double balance;
     @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "account")
-    private Set<Transaction> transaction = new HashSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
 
 
 
@@ -31,56 +33,62 @@ public class Account {
     }
     public Account(String number, double balance){
         this.number = number;
-        this.date = LocalDate.now();
+        this.creationDate = LocalDate.now();
         this.balance = balance;
+        this.localDateTime = LocalDateTime.now();
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void addTransaction (Transaction transaction){
+        transaction.setAccount(this);
+        this.transactions.add(transaction);
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Client getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-
-    public Set<Transaction> getTransaction(){
-        return transaction;
-    }
-
-    public void addTransaction(Transaction transaction){
-        transaction.setAccount(this);
-        this.transaction.add(transaction);
-    }
-
-
-
-
-    public long getId(){
-        return id;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
     public String getNumber() {
         return number;
     }
 
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
     public void setNumber(String number) {
         this.number = number;
     }
 
     public void setCreationDate(LocalDate creationDate) {
-        this.date = creationDate;
+        this.creationDate = creationDate;
     }
 
-    public LocalDate getDate() {
-        return date;
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
     }
 }

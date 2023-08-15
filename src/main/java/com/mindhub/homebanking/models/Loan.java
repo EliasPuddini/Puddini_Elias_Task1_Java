@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,10 +20,10 @@ public class Loan {
     private String name;
     private double maxAmount;
     @ElementCollection
-    private List<Integer> payments;
+    private List<Integer> payments = new ArrayList<>();
 
     @OneToMany(mappedBy="loan", fetch=FetchType.EAGER)
-    private Set<ClientLoan> clientLoans;
+    private Set<ClientLoan> clients = new HashSet<>();
 
     public Loan(){
 
@@ -64,12 +66,13 @@ public class Loan {
 
     public void addClientLoan(ClientLoan clientLoan) {
         clientLoan.setLoan(this);
-        clientLoans.add(clientLoan);
+        clients.add(clientLoan);
     }
 
-    @JsonIgnore
-    public List<Client> getClient() {
-        return clientLoans.stream().map(element -> element.getClient()).collect(Collectors.toList());
+
+
+    public Set<Client> getClients() {
+        return clients.stream().map(element -> element.getClient()).collect(Collectors.toSet());
     }
 
 

@@ -6,54 +6,37 @@ import com.mindhub.homebanking.models.Loan;
 
 public class ClientLoanDTO {
     private long id;
-    private long amount;
-    private long payments;
+    private  String name;
+    private double amount;
+    private double payments;
 
-    private Client client;
-    private Loan loan;
+    private Long loanId;
 
     public ClientLoanDTO(ClientLoan clientLoan){
         id = clientLoan.getId();
+        this.name = clientLoan.getLoan().getName();
         amount = clientLoan.getAmount();
         payments = clientLoan.getPayments();
-        client = clientLoan.getClient();
-        loan = clientLoan.getLoan();
+        loanId = clientLoan.getLoan().getId();
     }
 
     public long getId() {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
 
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
-        this.amount = amount;
-    }
-
-    public long getPayments() {
+    public double getPayments() {
         return payments;
     }
 
-    public void setPayments(long payments) {
-        this.payments = payments;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
+    public long getLoan() {
+        return loanId;
     }
 }

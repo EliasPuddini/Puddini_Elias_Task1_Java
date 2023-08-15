@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.ClientLoan;
@@ -15,7 +16,7 @@ public class ClientDTO {
     private long id;
     private String firstName, lastName, email;
     private Set<AccountDTO> accounts;
-    private Set<ClientLoan> loans;
+    private Set<ClientLoanDTO> loans;
 
     public ClientDTO(Client client){
         id = client.getId();
@@ -23,46 +24,30 @@ public class ClientDTO {
         lastName = client.getLastName();
         email = client.getEmail();
         accounts = client.getAccounts().stream().map(element -> new AccountDTO(element)).collect(Collectors.toSet());
-        loans = client.getClientLoans();
+        loans = client.getClientsLoans().stream().map(element -> new ClientLoanDTO(element)).collect(Collectors.toSet());
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Set<AccountDTO> getAccounts() {
         return accounts;
     }
 
-    public Set<ClientLoan> getLoans() {
+    public Set<ClientLoanDTO> getLoans() {
         return loans;
     }
 }

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,7 +26,7 @@ public class Client {
     private Set<Account> accounts = new HashSet<>();
 
     @OneToMany(mappedBy="client", fetch=FetchType.EAGER)
-    private Set<ClientLoan> clientLoans;
+    private Set<ClientLoan> loans = new HashSet<>();
 
 
     public Client() { }
@@ -36,15 +37,26 @@ public class Client {
         this.email = email;
     }
 
+
     @JsonIgnore
-    public List<Loan> getLoan() {
-        return clientLoans.stream().map(sub -> sub.getLoan()).collect(toList());
+    public List<Loan> getLoans (){
+        return loans.stream().map(clientLoan -> clientLoan.getLoan()).collect(Collectors.toList());
+    }
+
+    public void addClientLoan (ClientLoan clientLoan){
+        clientLoan.setClient(this);
+        loans.add(clientLoan);
+    }
+
+    public void setLoans(Set<ClientLoan> loans) {
+        this.loans = loans;
+    }
+
+    public Set<ClientLoan> getClientsLoans(){
+        return loans;
     }
 
 
-    public Set<ClientLoan> getClientLoans(){
-        return clientLoans;
-    }
 
     public String getFirstName() {
         return firstName;

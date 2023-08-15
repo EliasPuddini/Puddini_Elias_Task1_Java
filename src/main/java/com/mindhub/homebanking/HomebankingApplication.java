@@ -37,15 +37,15 @@ public class HomebankingApplication {
 			account1.setClient(client);
 			client.addAccount(account1);
 
-			account1.date = LocalDate.now().plusDays(1);
+			account1.creationDate = LocalDate.now().plusDays(1);
 			accountRepository.save(account);
 			accountRepository.save(account1);
 			accountRepository.save(account2);
 
 
-			Transaction transaction = new Transaction(TransactionType.DEBIT, 15000, "Pague algo");
-			Transaction transaction3 = new Transaction(TransactionType.DEBIT, -5000, "Le envié dinero a mi hermano");
-			Transaction transaction2 = new Transaction(TransactionType.CREDIT, 10000, "Pedi un prestamo");
+			Transaction transaction = new Transaction(TransactionType.DEBIT, 15000, "transfer of mom");
+			Transaction transaction3 = new Transaction(TransactionType.DEBIT, -5000, "dinner");
+			Transaction transaction2 = new Transaction(TransactionType.CREDIT, 10000, "transfer of dad");
 
 			transaction.setAccount(account);
 			transaction2.setAccount(account1);
@@ -63,9 +63,9 @@ public class HomebankingApplication {
 
 
 
-			Loan loan = new Loan("Hipotecario",500000, List.of(12,24,36,48,60));
-			Loan loan1 = new Loan("Personal",100000,List.of(6,12,24));
-			Loan loan2 = new Loan("Automotriz",300000,List.of(6,12,24,36));
+			Loan loan = new Loan("mortgage loan",500000, List.of(12,24,36,48,60));
+			Loan loan1 = new Loan("Personal loan",100000,List.of(6,12,24));
+			Loan loan2 = new Loan("Car Loan",300000,List.of(6,12,24,36));
 
 
 			loanRepository.save(loan);
@@ -77,6 +77,11 @@ public class HomebankingApplication {
 
 			ClientLoan clientLoan2 = new ClientLoan(100000,24,client2,loan1);
 			ClientLoan clientLoan3 = new ClientLoan(200000,36,client2,loan2);
+
+			client.addClientLoan(clientLoan);
+			client.addClientLoan(clientLoan1);
+			client2.addClientLoan(clientLoan2);
+			client2.addClientLoan(clientLoan3);
 
 			clientLoanRepository.save(clientLoan);
 			clientLoanRepository.save(clientLoan1);
