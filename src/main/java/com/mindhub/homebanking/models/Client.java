@@ -20,7 +20,11 @@ public class Client {
     private Long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique = true)
     private String email;
+
+    private String password;
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "client")
     private Set<Account> accounts = new HashSet<>();
@@ -34,10 +38,11 @@ public class Client {
 
     public Client() { }
 
-    public Client(String first, String last, String email) {
+    public Client(String first, String last, String email, String password) {
         this.firstName = first;
         this.lastName = last;
         this.email = email;
+        this.password = password;
     }
 
 
@@ -105,6 +110,13 @@ public class Client {
         this.cards.add(card);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {
