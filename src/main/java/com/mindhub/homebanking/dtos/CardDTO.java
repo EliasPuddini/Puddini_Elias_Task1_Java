@@ -17,7 +17,6 @@ public class CardDTO {
     private LocalDate fromDate;
     private LocalDate thruDate;
     private long cvv;
-    private Client client;
 
     public CardDTO(){
 
@@ -66,7 +65,4 @@ public class CardDTO {
         return cvv;
     }
 
-    public Client getClient() {
-        return client;
-    }
 }

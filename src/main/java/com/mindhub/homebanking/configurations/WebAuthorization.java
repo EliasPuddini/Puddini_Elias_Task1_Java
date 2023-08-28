@@ -17,18 +17,18 @@ import java.net.http.HttpRequest;
 
 
 @EnableWebSecurity
- @Configuration
-public class WebAuthorization extends WebSecurityConfigurerAdapter {
+@Configuration
+public class WebAuthorization{
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
 
         http.authorizeRequests()
                 .antMatchers("/web/index.html", "/web/js/**","/web/css/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/api/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/clients").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/api/**").hasAuthority("CLIENT")
-                .antMatchers(HttpMethod.GET,"/api/clients/current", "/web/**").hasAuthority("CLIENT");
+                .antMatchers(HttpMethod.POST ,"/api/login/**","/app/logout/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/web/**","/api/clients/current").hasAuthority("CLIENT")
+                .antMatchers("/admin/**","/h2-console").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/**").hasAuthority("ADMIN")
+                .anyRequest().denyAll();
 
 
         http.formLogin()

@@ -40,6 +40,7 @@ public class ClientController {
         return new ClientDTO(clientRepository.findByEmail(authentication.name()));
     }
 
+    
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
 
@@ -47,15 +48,17 @@ public class ClientController {
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
 
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
         if (clientRepository.findByEmail(email) !=  null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
-
-        clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if(!(firstName.isEmpty() && lastName.isEmpty() && email.isEmpty() && password.isEmpty())) {
+            clientRepository.save(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
     }
 }
