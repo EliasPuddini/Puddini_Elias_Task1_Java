@@ -40,7 +40,6 @@ public class ClientController {
         return new ClientDTO(clientRepository.findByEmail(authentication.name()));
     }
 
-    
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
 
