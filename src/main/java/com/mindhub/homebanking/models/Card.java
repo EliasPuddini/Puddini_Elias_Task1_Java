@@ -28,14 +28,10 @@ public class Card {
     public Card(){
 
     }
-    public Card(String cardHolder, CardType type, CardColor color, String number, LocalDate fromDate, LocalDate thruDate, long cvv){
-        this.cardHolder = cardHolder;
+    public Card(CardType type, CardColor color,LocalDate fromDate){
         this.type = type;
         this.color = color;
-        this.number = number;
         this.fromDate = fromDate;
-        this.thruDate = thruDate;
-        this.cvv = cvv;
     }
 
     public long getId() {

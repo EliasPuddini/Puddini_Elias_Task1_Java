@@ -67,7 +67,7 @@ public class AccountController {
 
         }
 
-        Account newAccount= new Account("VIN"+String.format("%03d",accountRepository.count()+1) , 0.0, LocalDate.now());
+        Account newAccount= new Account(("VIN" + String.format("%03d",accountRepository.count()+1)), 0.0, LocalDate.now());
         Client AuthClient = clientRepository.findByEmail(authentication.getName());
         AuthClient.addAccount(newAccount);
         accountRepository.save(newAccount);

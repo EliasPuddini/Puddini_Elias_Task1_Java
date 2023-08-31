@@ -61,7 +61,7 @@ public class ClientController {
         }
         if(!(firstName.isEmpty() && lastName.isEmpty() && email.isEmpty() && password.isEmpty())) {
 
-            Account account= new Account("VIN"+String.format("%03d",accountRepository.count()+1) , 0.0, LocalDate.now());
+            Account account= new Account(("VIN"+String.format("%03d") + accountRepository.count()+1, 0.0, LocalDate.now());
             Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
             newClient.addAccount(account);
             clientRepository.save(newClient);

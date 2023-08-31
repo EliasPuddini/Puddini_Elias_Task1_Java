@@ -86,9 +86,24 @@ public class HomebankingApplication {
 
 			//Card's creation
 
-			Card card = new Card("Melba Morel",CardType.DEBIT,CardColor.GOLD,"1234567812345678",LocalDate.now(),LocalDate.now().plusYears(5),879);
-			Card card1 = new Card("Melba Morel",CardType.CREDIT,CardColor.TITANIUM,"4321567812345678",LocalDate.now(),LocalDate.now().plusYears(5),897);
-			Card card2 = new Card("Lautaro Puddini",CardType.CREDIT,CardColor.SILVER,"4321567812349999",LocalDate.now(),LocalDate.now().plusYears(5),978);
+			Card card = new Card(CardType.DEBIT,CardColor.GOLD,LocalDate.now());
+			Card card1 = new Card(CardType.CREDIT,CardColor.TITANIUM,LocalDate.now());
+			Card card2 = new Card(CardType.CREDIT,CardColor.SILVER,LocalDate.now());
+
+			card.setCardHolder("melba Morel");
+			card.setNumber("4321567812345674");
+			card.setCvv(879);
+			card.setThruDate(LocalDate.now().plusYears(5));
+
+			card1.setCardHolder("melba Morel");
+			card1.setNumber("4321567812345678");
+			card1.setCvv(870);
+			card1.setThruDate(LocalDate.now().plusYears(5));
+
+			card2.setCardHolder("Lautaro Puddini");
+			card2.setNumber("4321567812345600");
+			card2.setCvv(881);
+			card2.setThruDate(LocalDate.now().plusYears(5));
 
 			card.setClient(client);
 			card1.setClient(client);

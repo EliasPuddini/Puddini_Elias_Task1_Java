@@ -53,11 +53,9 @@ public class CardController {
         Client AuthClient = clientRepository.findByEmail(authentication.getName());
 
 
-        if (cardRepository.findByClient(AuthClient).stream()
-                .anyMatch(card -> card.getType().equals(cardType) && card.getColor().equals(cardColor))) {
+        if (cardRepository.findByClient(AuthClient).stream().anyMatch(card -> card.getType().equals(cardType) && card.getColor().equals(cardColor))){
             return new ResponseEntity<>("Already have a "+cardType+" card "+cardColor+".", HttpStatus.FORBIDDEN);
         }
-
         Card newCard = new Card(cardType, cardColor, LocalDate.now());
 
         do {
