@@ -20,7 +20,8 @@ public class Client {
     private Long id;
     private String firstName;
     private String lastName;
-
+    private String cardHolder;
+    private CardType type;
     @Column(unique = true)
     private String email;
 
@@ -128,5 +129,13 @@ public class Client {
                 '}';
     }
 
+
+    public void addCard(Card newCard) {
+
+    }
+
+    public CardType getType() {
+        return type;
+    }
 
 }

@@ -3,6 +3,14 @@ package com.mindhub.homebanking.dtos;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.ClientLoan;
 import com.mindhub.homebanking.models.Loan;
+import com.mindhub.homebanking.models.Transaction;
+
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ClientLoanDTO {
     private long id;
@@ -11,6 +19,7 @@ public class ClientLoanDTO {
     private double payments;
 
     private Long loanId;
+
 
     public ClientLoanDTO(ClientLoan clientLoan){
         id = clientLoan.getId();

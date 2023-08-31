@@ -18,6 +18,7 @@ public class Transaction {
     private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="account_id")
     private Account account;
 
 
