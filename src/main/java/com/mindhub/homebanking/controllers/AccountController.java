@@ -60,14 +60,16 @@ public class AccountController {
 
     public ResponseEntity<Object> createAccount(Authentication authentication) {
 
+        if(authentication == null){
+            return new ResponseEntity<>("Missing data. ", HttpStatus.FORBIDDEN);
+        }
 
         if (clientRepository.findByEmail(authentication.getName()).getAccounts().stream().count()==3) {
 
-            return new ResponseEntity<>("Already have 3 accounts", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Already have 3 accounts. ", HttpStatus.FORBIDDEN);
 
         }
-
-        Account newAccount= new Account(("VIN" + String.format("%03d",accountRepository.count()+1)), 0.0, LocalDate.now());
+        Account newAccount = new Account( ("VIN" + String.format("%03d",accountRepository.count()+1) ) , 0.0);
         Client AuthClient = clientRepository.findByEmail(authentication.getName());
         AuthClient.addAccount(newAccount);
         accountRepository.save(newAccount);

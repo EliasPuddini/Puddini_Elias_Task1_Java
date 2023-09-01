@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -47,15 +44,21 @@ public class CardController {
     }
 
 
-    @RequestMapping("/clients/current/cards")
+    @RequestMapping(value = "/clients/current/cards",method = RequestMethod.POST)
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication) {
 
-        Client AuthClient = clientRepository.findByEmail(authentication.getName());
-
-
-        if (cardRepository.findByClient(AuthClient).stream().anyMatch(card -> card.getType().equals(cardType) && card.getColor().equals(cardColor))){
-            return new ResponseEntity<>("Already have a "+cardType+" card "+cardColor+".", HttpStatus.FORBIDDEN);
+        if(authentication == null || (cardType != CardType.CREDIT && cardType != CardType.DEBIT) || (cardColor != CardColor.GOLD && cardColor != CardColor.SILVER && cardColor != CardColor.TITANIUM)){
+            return new ResponseEntity<>("Missing data" + cardType,HttpStatus.FORBIDDEN);
         }
+
+        Client authClient = clientRepository.findByEmail(authentication.getName());
+
+        long count = clientRepository.findByEmail(authentication.getName()).getCards().stream().filter(card -> card.getType().equals(cardType)).count();
+        if(count == 3){
+            return new ResponseEntity<>("already have 3 cards of " + cardType,HttpStatus.FORBIDDEN);
+        }
+
+
         Card newCard = new Card(cardType, cardColor, LocalDate.now());
 
         do {
@@ -64,7 +67,7 @@ public class CardController {
 
         newCard.setCvv(genCvv(newCard.getNumber()));
 
-        AuthClient.addCard(newCard);
+        authClient.addCard(newCard);
         cardRepository.save(newCard);
 
         return new ResponseEntity<>(HttpStatus.CREATED);

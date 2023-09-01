@@ -34,11 +34,15 @@ public class ClientController {
         return clientRepository.findAll().stream().map(client -> new ClientDTO(client)).collect(Collectors.toList());
     }
 
-    @RequestMapping("/clients/{id}")
+    @RequestMapping(value = "/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
 
         return new ClientDTO(clientRepository.findById(id).orElse(null));
     }
+    /*@RequestMapping("/clients/{id}")
+    public ClientDTO getById(@PathVariable Long id){
+        return new ClientDTO(clientRepository.findById(id).orElse(null));
+    }*/
 
     @RequestMapping(value = "/clients/current", method = RequestMethod.GET)
     public ClientDTO getCurrent ( Authentication authentication){
@@ -53,15 +57,27 @@ public class ClientController {
             @RequestParam String email, @RequestParam String password) {
 
         if (firstName.isBlank() || lastName.isBlank() || email.isBlank() || password.isBlank()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+
+            if(firstName.isEmpty() && lastName.isEmpty() && email.isEmpty() && password.isEmpty()){
+                return new ResponseEntity<>("Missing all data", HttpStatus.FORBIDDEN);
+            }
+            if(firstName.isBlank()){
+                return new ResponseEntity<>("Missing first name data", HttpStatus.FORBIDDEN);
+            }if(lastName.isBlank()){
+                return new ResponseEntity<>("Missing last name data", HttpStatus.FORBIDDEN);
+            }if(email.isBlank()){
+                return new ResponseEntity<>("Missing email data", HttpStatus.FORBIDDEN);
+            }if(password.isBlank()){
+                return new ResponseEntity<>("Missing password data", HttpStatus.FORBIDDEN);
+            }
         }
 
         if (clientRepository.findByEmail(email) !=  null) {
-            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("email already in use", HttpStatus.FORBIDDEN);
         }
         if(!(firstName.isEmpty() && lastName.isEmpty() && email.isEmpty() && password.isEmpty())) {
 
-            Account account= new Account(("VIN"+String.format("%03d") + accountRepository.count()+1, 0.0, LocalDate.now());
+            Account account= new Account(("VIN"+ String.format("%03d",accountRepository.count()+1)), 0);
             Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
             newClient.addAccount(account);
             clientRepository.save(newClient);
@@ -70,10 +86,7 @@ public class ClientController {
         }
         return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
     }
-    @RequestMapping("/clients/{id}")
-    public ClientDTO getById(@PathVariable Long id){
-        return new ClientDTO(clientRepository.findById(id).orElse(null));
-    }
+
 
     @RequestMapping("/clients/current")
     public ClientDTO getCurrentClient(Authentication authentication) {
