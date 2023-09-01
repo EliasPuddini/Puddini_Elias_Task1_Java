@@ -46,7 +46,17 @@ public class TransactionController {
 
         //verificamos que los parametros no esten vacios
         if (amount == null || description == null || accountFromNumber == null || toAccountNumber == null) {
-            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+            if(amount == null && description == null && accountFromNumber == null && toAccountNumber == null){
+                return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+            }if(amount == null){
+                return new ResponseEntity<>("Missing amount data", HttpStatus.FORBIDDEN);
+            }if(description == null){
+                return new ResponseEntity<>("Missing description data", HttpStatus.FORBIDDEN);
+            }if(accountFromNumber == null){
+                return new ResponseEntity<>("Missing origin account number data", HttpStatus.FORBIDDEN);
+            }if(toAccountNumber == null){
+                return new ResponseEntity<>("Missing destination account number data", HttpStatus.FORBIDDEN);
+            }
         }
         //verificamos que el numero de cuenta de origen y destino no sean iguales
         if (accountFromNumber.equals(toAccountNumber)) {

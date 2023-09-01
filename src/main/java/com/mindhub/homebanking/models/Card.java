@@ -22,6 +22,7 @@ public class Card {
     private long cvv;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id")
     private Client client;
 
 
