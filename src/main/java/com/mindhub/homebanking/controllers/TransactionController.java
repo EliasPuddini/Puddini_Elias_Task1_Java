@@ -45,7 +45,7 @@ public class TransactionController {
 
 
         //verificamos que los parametros no esten vacios
-        if (amount == null || description == null || accountFromNumber == null || toAccountNumber == null) {
+        if (amount == null || description == null || accountFromNumber == null || toAccountNumber == null) {//luego verificamos cual es el faltante y damos la respuesta
             if(amount == null && description == null && accountFromNumber == null && toAccountNumber == null){
                 return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
             }if(amount == null){
