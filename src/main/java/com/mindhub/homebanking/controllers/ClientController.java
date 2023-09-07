@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.ClientService;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,30 +29,26 @@ public class ClientController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private ClientService clientService;
 
     @RequestMapping("/clients")
-    public List<ClientDTO> getClient(){
-        return clientRepository.findAll().stream().map(client -> new ClientDTO(client)).collect(Collectors.toList());
+    public List<ClientDTO> getAll(){
+        return clientService.getClientsDTO();
     }
 
     @RequestMapping(value = "/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
-
-        return new ClientDTO(clientRepository.findById(id).orElse(null));
+        return clientService.getClientsDTOById(id);
     }
-    /*@RequestMapping("/clients/{id}")
-    public ClientDTO getById(@PathVariable Long id){
-        return new ClientDTO(clientRepository.findById(id).orElse(null));
-    }*/
 
     @RequestMapping(value = "/clients/current", method = RequestMethod.GET)
     public ClientDTO getCurrent ( Authentication authentication){
-        return new ClientDTO(clientRepository.findByEmail(authentication.name()));
+        return clientService.getCurrentClient(authentication);
     }
 
 
     @RequestMapping(path = "/clients", method = RequestMethod.POST)
-
     public ResponseEntity<Object> register(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
@@ -77,11 +74,8 @@ public class ClientController {
         }
         if(!(firstName.isEmpty() && lastName.isEmpty() && email.isEmpty() && password.isEmpty())) {
 
-            Account account= new Account(("VIN"+ String.format("%03d",accountRepository.count()+1)), 0);
-            Client newClient = new Client(firstName, lastName, email, passwordEncoder.encode(password));
-            newClient.addAccount(account);
-            clientRepository.save(newClient);
-            accountRepository.save(account);
+            clientService.saveClient(new Client(firstName, lastName, email, passwordEncoder.encode(password)));
+            return new ResponseEntity<>(HttpStatus.CREATED);
 
         }
         return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
@@ -90,6 +84,6 @@ public class ClientController {
 
     @RequestMapping("/clients/current")
     public ClientDTO getCurrentClient(Authentication authentication) {
-        return new ClientDTO(clientRepository.findByEmail(authentication.getDeclaringClass().getName()));
+        return clientService.getCurrentClient(authentication);
     }
 }

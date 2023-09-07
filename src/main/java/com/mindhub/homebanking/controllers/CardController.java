@@ -9,6 +9,7 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +31,17 @@ public class CardController {
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
+    private CardService cardService;
+    @Autowired
     private AccountRepository accountRepository;
 
     @RequestMapping("/cards")
     public List<CardDTO> getAll(){
-        return cardRepository.findAll().stream()
-                .map(card -> new CardDTO(card))
-                .collect(toList());
+        return cardService.getAllCardsDTO();
     }
     @RequestMapping("/cards/{id}")
     public CardDTO getById(@PathVariable Long id){
-        return new CardDTO(cardRepository.findById(id).orElse(null));
+        return cardService.getById(id);
     }
 
 
@@ -59,16 +60,7 @@ public class CardController {
         }
 
 
-        Card newCard = new Card(cardType, cardColor, LocalDate.now());
-
-        do {
-            newCard.setNumber(genRandomCardNumber());
-        } while (cardRepository.findByNumber(newCard.getNumber()) != null);
-
-        newCard.setCvv(genCvv(newCard.getNumber()));
-
-        authClient.addCard(newCard);
-        cardRepository.save(newCard);
+        cardService.createCard(cardType, cardColor, authClient);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
