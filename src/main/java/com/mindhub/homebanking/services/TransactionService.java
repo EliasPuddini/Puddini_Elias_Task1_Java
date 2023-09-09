@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-public class TransactionService {
+public interface TransactionService {
     List<TransactionDTO> getAll();
 
     TransactionDTO getById(@PathVariable Long id);

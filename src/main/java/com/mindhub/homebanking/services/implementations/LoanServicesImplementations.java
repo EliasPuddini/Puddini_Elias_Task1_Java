@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.ClientLoan;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.*;
+import com.mindhub.homebanking.services.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class LoanServicesImplementations {
+public class LoanServicesImplementations implements LoanService {
     @Autowired
     private ClientRepository clientRepository;
     @Autowired

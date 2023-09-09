@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
-public class CardService {
+public interface CardService {
     List<CardDTO> getAllCardsDTO();
 
     CardDTO getById(Long id);

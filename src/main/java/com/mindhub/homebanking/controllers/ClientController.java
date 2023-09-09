@@ -6,10 +6,10 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.ClientService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,11 +79,5 @@ public class ClientController {
 
         }
         return new ResponseEntity<>("Error", HttpStatus.FORBIDDEN);
-    }
-
-
-    @RequestMapping("/clients/current")
-    public ClientDTO getCurrentClient(Authentication authentication) {
-        return clientService.getCurrentClient(authentication);
     }
 }

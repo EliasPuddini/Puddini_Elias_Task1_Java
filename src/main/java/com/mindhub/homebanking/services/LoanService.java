@@ -6,10 +6,10 @@ import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
-public abstract class LoanService {
-    abstract List<LoanDTO> getAll();
+public interface LoanService {
+    List<LoanDTO> getAll();
 
-    abstract void createLoan(
+    void createLoan(
             ClientLoanRecord clientLoanRecord,
             Authentication authentication);
 }

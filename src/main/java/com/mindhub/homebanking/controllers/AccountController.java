@@ -36,7 +36,7 @@ public class AccountController {
 
     @RequestMapping("/accounts")
     public List<AccountDTO> getAll(){
-        return accountService.getAll();
+        return accountService.getAccounts();
     }
     @RequestMapping("/accounts/{id}")
     public AccountDTO getById(@PathVariable Long id, Authentication authentication){

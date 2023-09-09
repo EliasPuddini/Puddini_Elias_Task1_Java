@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
-public class ClientService {
+public interface ClientService {
     List<ClientDTO> getClientsDTO();
 
     void saveClient(Client client);

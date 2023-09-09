@@ -7,6 +7,7 @@ import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.CardRepository;
+import com.mindhub.homebanking.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import static com.mindhub.homebanking.utils.utils.genRandomCardNumber;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class CardServicesImplementations {
+public class CardServicesImplementations implements CardService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
@@ -26,7 +27,7 @@ public class CardServicesImplementations {
 
 
     @Override
-    public List<CardDTO> getAllCardsDto() {
+    public List<CardDTO> getAllCardsDTO() {
         return cardRepository.findAll().stream()
                 .map(card -> new CardDTO(card))
                 .collect(toList());
