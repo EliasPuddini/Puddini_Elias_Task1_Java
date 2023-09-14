@@ -35,17 +35,17 @@ public class CardController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping("/cards")
+    @GetMapping("/cards")
     public List<CardDTO> getAll(){
         return cardService.getAllCardsDTO();
     }
-    @RequestMapping("/cards/{id}")
+    @GetMapping("/cards/{id}")
     public CardDTO getById(@PathVariable Long id){
         return cardService.getById(id);
     }
 
 
-    @RequestMapping(value = "/clients/current/cards",method = RequestMethod.POST)
+    @PostMapping(value = "/clients/current/cards")
     public ResponseEntity<Object> createCard(@RequestParam CardType cardType, @RequestParam CardColor cardColor, Authentication authentication) {
 
         if(authentication == null || (cardType != CardType.CREDIT && cardType != CardType.DEBIT) || (cardColor != CardColor.GOLD && cardColor != CardColor.SILVER && cardColor != CardColor.TITANIUM)){

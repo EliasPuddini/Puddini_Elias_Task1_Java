@@ -27,17 +27,17 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    @RequestMapping(value = "/transactions",method = RequestMethod.GET)
+    @GetMapping(value = "/transactions")
     public List<TransactionDTO> getAll(){
         return transactionService.getAll();
     }
-    @RequestMapping(value = "/transactions/{id}",method = RequestMethod.GET)
+    @GetMapping(value = "/transactions/{id}")
     public TransactionDTO getById(@PathVariable Long id){
         return transactionService.getById(id);
     }
 
     @Transactional
-    @RequestMapping(value = "/transactions",method = RequestMethod.POST)
+    @PostMapping(value = "/transactions")
     public ResponseEntity makeTransaction(
             @RequestParam Double amount, @RequestParam String description ,
             @RequestParam(value = "fromAccountNumber") String accountFromNumber, @RequestParam String toAccountNumber,

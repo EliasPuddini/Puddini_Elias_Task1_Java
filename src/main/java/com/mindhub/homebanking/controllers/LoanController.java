@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -30,13 +27,13 @@ public class LoanController {
 
     @Autowired
     private LoanService loanService;
-    @RequestMapping(value="/loans",method = RequestMethod.GET)
+    @GetMapping(value="/loans")
     public List<LoanDTO> getAll(){
         return loanService.getAll();
     }
 
     @Transactional
-    @RequestMapping(value="/loans",method = RequestMethod.POST)
+    @PostMapping(value="/loans")
     public ResponseEntity<Object> createLoan(
             @RequestBody ClientLoanRecord clientLoanRecord,
             Authentication authentication){

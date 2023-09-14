@@ -32,23 +32,23 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping("/clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getAll(){
         return clientService.getClientsDTO();
     }
 
-    @RequestMapping(value = "/clients/{id}")
+    @GetMapping(value = "/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
         return clientService.getClientsDTOById(id);
     }
 
-    @RequestMapping(value = "/clients/current", method = RequestMethod.GET)
+    @GetMapping(value = "/clients/current")
     public ClientDTO getCurrent ( Authentication authentication){
         return clientService.getCurrentClient(authentication);
     }
 
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping(path = "/clients")
     public ResponseEntity<Object> register(
             @RequestParam String firstName, @RequestParam String lastName,
             @RequestParam String email, @RequestParam String password) {
