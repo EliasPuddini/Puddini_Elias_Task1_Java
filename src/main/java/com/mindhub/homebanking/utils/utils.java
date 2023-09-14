@@ -11,8 +11,6 @@ public class utils {
         for (int i = 0; i < 3; i++) {
             cardNumber += "-" + String.format("%04d", random.nextInt(10000));
         }
-
-
         return cardNumber;
 
     }
