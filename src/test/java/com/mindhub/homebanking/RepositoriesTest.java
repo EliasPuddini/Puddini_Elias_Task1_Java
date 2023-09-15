@@ -7,21 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static javax.persistence.SharedCacheMode.NONE;
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.util.List;
 
-import static java.util.Optional.empty;
-import static java.util.function.Predicate.not;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.data.repository.util.ClassUtils.hasProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @DataJpaTest
-@AutoConfigureTestDatabase()
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class RepositoriesTest {
     @Autowired
     LoanRepository loanRepository;
+    @Test
+    public void existLoans(){
 
+        List<Loan> loans = loanRepository.findAll();
+
+        assertThat(loans,is(not(empty())));
+
+    }
+
+    @Test
+    public void existPersonalLoan(){
+
+        List<Loan> loans = loanRepository.findAll();
+
+        assertThat(loans, hasItem(hasProperty("name", is("PERSONAL LOAN"))));
+    }
 }

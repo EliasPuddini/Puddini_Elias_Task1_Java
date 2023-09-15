@@ -16,6 +16,5 @@ public interface TransactionService {
 
     void makeTransaction(
             @RequestParam Double amount, @RequestParam String description ,
-            @RequestParam(value = "fromAccountNumber") String accountFromNumber, @RequestParam String toAccountNumber,
-            Authentication authentication);
+            @RequestParam(value = "fromAccountNumber") String accountFromNumber, @RequestParam String toAccountNumber);
 }

@@ -83,7 +83,7 @@ public class TransactionController {
             return new ResponseEntity<>("The amount must be greater than 0", HttpStatus.FORBIDDEN);
         }
 
-        transactionService.makeTransaction(amount,description,accountFromNumber,toAccountNumber,authentication);
+        transactionService.makeTransaction(amount,description,accountFromNumber,toAccountNumber);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
