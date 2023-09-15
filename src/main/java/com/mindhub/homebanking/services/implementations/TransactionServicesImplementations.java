@@ -37,7 +37,6 @@ public class TransactionServicesImplementations implements TransactionService {
     @Override
     public void makeTransaction(Double amount, String description, String accountFromNumber, String toAccountNumber, Authentication authentication) {
 
-        if (amount > 0 && !(description.isEmpty()) && !(accountFromNumber.isEmpty()) && !(toAccountNumber.isEmpty()) && authentication != null){
 
             //creamos la transaccion
             Transaction transactionDebit = new Transaction(TransactionType.DEBIT, amount, description);
@@ -60,6 +59,6 @@ public class TransactionServicesImplementations implements TransactionService {
             //guardamos los cambios en las cuentas
             accountRepository.save(originAccount);
             accountRepository.save(destinyAccount);
-        }
+
     }
 }
