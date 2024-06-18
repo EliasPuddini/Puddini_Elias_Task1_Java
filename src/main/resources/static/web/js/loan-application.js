@@ -10,6 +10,7 @@ Vue.createApp({
             errorMsg: null,
             accountToNumber: "VIN",
             amount: 0,
+            totalLoan: 0,
             fees: []
         }
     },
