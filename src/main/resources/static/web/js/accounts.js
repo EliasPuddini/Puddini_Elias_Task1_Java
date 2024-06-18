@@ -10,13 +10,15 @@ Vue.createApp({
         getData: function () {
             axios.get("/api/clients/current")
                 .then((response) => {
-                    //get client ifo
+                    //get client info
                     this.clientInfo = response.data;
+                    console.log("se consiguieron los datos. ");
                 })
                 .catch((error) => {
                     // handle error
                     this.errorMsg = "Error getting data";
                     this.errorToats.show();
+                    console.log("error en conseguir datos. ");
                 })
         },
         formatDate: function (date) {
@@ -26,7 +28,7 @@ Vue.createApp({
             axios.post('/api/logout')
                 .then(response => window.location.href = "/web/index.html")
                 .catch(() => {
-                    this.errorMsg = "Sign out failed"
+                    this.errorMsg = "Sign out failed";
                     this.errorToats.show();
                 })
         },
@@ -40,7 +42,7 @@ Vue.createApp({
         }
     },
     mounted: function () {
-        this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
         this.getData();
+        this.errorToats = new bootstrap.Toast(document.getElementById('danger-toast'));
     }
 }).mount('#app')
